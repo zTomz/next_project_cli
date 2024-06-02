@@ -1,5 +1,4 @@
-export 'src/features/config/config.dart';
-export 'src/features/database/database.dart';
-export 'src/models/date.dart';
-export 'src/models/project.dart';
-export 'src/models/task.dart';
+export 'src/commands/commands.dart';
+export 'src/features/features.dart';
+export 'src/functions/project_functions.dart';
+export 'src/models/models.dart';

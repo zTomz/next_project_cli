@@ -21,13 +21,7 @@ class OpenCommand extends Command {
       exit(1);
     }
 
-    late final Project project;
-
-    try {
-      project = await Database.loadProject(projectName: projectToOpen);
-    } on ProjectNotExistingExeption catch (e) {
-      printerr(red("Project not found: ${e.projectName}."));
-    }
+    final project = await loadProject(projectToOpen);
 
     await listProject(project);
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dcli/dcli.dart';
 import 'package:interact/interact.dart';
 import 'package:next_project_cli/next_project_cli.dart';
@@ -53,4 +55,19 @@ Future<void> listProject(Project project) async {
     task.set(answers.contains(i));
   }
   await Database.saveProject(project);
+}
+
+/// Load a project from the database. Handles exceptions.
+Future<Project> loadProject(String projectName) async {
+  late final Project project;
+
+  try {
+    project = await Database.loadProject(projectName: projectName);
+  } on ProjectNotExistingExeption catch (e) {
+    printerr(red("Project not found: ${e.projectName}."));
+
+    exit(1);
+  }
+
+  return project;
 }

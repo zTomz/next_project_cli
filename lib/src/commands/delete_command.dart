@@ -9,7 +9,7 @@ class DeleteCommand extends Command {
   final name = "delete";
 
   @override
-  final description = "Delete a project.";
+  final description = "Delete a project. E. g. npcli delete <project>";
 
   DeleteCommand() {
     argParser.addFlag(

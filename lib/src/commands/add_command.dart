@@ -9,17 +9,26 @@ class AddCommand extends Command {
   final name = "add";
 
   @override
-  final description = "Add a task to a project.";
+  final description =
+      "Add a task to a project. E. g. npcli add <project> -t <task>";
+
+  AddCommand() {
+    argParser.addOption(
+      "task",
+      abbr: "t",
+      help: "The task you want to add.",
+    );
+  }
 
   @override
   Future<void> run() async {
     final projectToAddTheTask = argResults?.arguments.firstOrNull;
-    final task = argResults?.arguments[1];
+    final task = argResults?.option("task");
 
     if (projectToAddTheTask == null) {
       printerr(
         red(
-          "Please provide the name of the project you want to add a task to.",
+          "Please provide the name of the project you want to add a task to. E. g. npcli add <project> -t <task>",
         ),
       );
 
@@ -32,15 +41,7 @@ class AddCommand extends Command {
       exit(1);
     }
 
-    late final Project project;
-
-    try {
-      project = await Database.loadProject(projectName: projectToAddTheTask);
-    } on ProjectNotExistingExeption catch (e) {
-      printerr(red("Project not found: ${e.projectName}."));
-
-      exit(1);
-    }
+    final project = await loadProject(projectToAddTheTask);
 
     project.tasks.add(Task.fromContent(task));
     await Database.saveProject(project);
